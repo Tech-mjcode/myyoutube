@@ -5,9 +5,9 @@ const Sidebar = () => {
   const isOpen = useSelector((state) => state.app.isMenuOpen);
   if (!isOpen) return null;
   return (
-    <div className="col-span-1 p-4 shadow-lg">
+    <div className="col-span-1 p-5 shadow-lg">
       <ul className="mt-3">
-        <li>Home</li>
+        <li className="font-bold">Home</li>
         <li>Shorts</li>
         <li>Subscription</li>
       </ul>

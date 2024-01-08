@@ -1,10 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaAlignJustify } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { toggleSide } from "../utils/appSlice";
+import { YOUTUBE_SEARCH_API } from "../utils/constrants";
 const Head = () => {
+  const [searchText, setSearchText] = useState("");
+  const [searchSuggestion, setSearchSuggestion] = useState([]);
+  const [showSuggestion, setShowSuggestion] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => getSearchSuggestion(), 200);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchText]);
+
+  const getSearchSuggestion = async () => {
+    const res = await fetch(YOUTUBE_SEARCH_API + searchText);
+    const jsonData = await res.json();
+    // console.log(jsonData[1]);
+    setSearchSuggestion(jsonData[1]);
+  };
   const dispatch = useDispatch();
   const handleToggle = () => {
     dispatch(toggleSide());
@@ -23,14 +40,35 @@ const Head = () => {
         ></img>
       </div>
       <div className="col-span-10 p-4 ml-5">
-        <input
-          className="w-1/2  border-2 border-black rounded-l-full px-2 py-1"
-          type="text"
-        />
-        <button className=" border-2 border-black rounded-r-full px-2 py-1">
-          Search
-        </button>
+        <div>
+          <input
+            className="w-1/2  border-2 border-black rounded-l-full px-2 py-1"
+            type="text"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onFocus={() => setShowSuggestion(true)}
+            onBlur={() => setShowSuggestion(false)}
+          />
+          <button className=" border-2 border-black rounded-r-full px-2 py-1">
+            Search
+          </button>
+        </div>
+        {showSuggestion && (
+          <div className="bg-gray-100 w-4/12 m-2 rounded-lg px-2 absolute">
+            <ul>
+              {searchSuggestion.map((s) => (
+                <li
+                  key={s}
+                  className="px-3 py-2 hover:bg-gray-400 cursor-pointer rounded-md"
+                >
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
+
       <div className="col-span-1 p-4">
         <FaRegUserCircle />
       </div>
