@@ -84,7 +84,7 @@ const Head = () => {
       </div>
 
       <div className="col-span-1 p-4">
-        <FaRegUserCircle />
+        <FaRegUserCircle className="text-3xl" />
       </div>
     </div>
   );
