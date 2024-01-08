@@ -2,15 +2,24 @@ import React, { useEffect, useState } from "react";
 import { FaAlignJustify } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleSide } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constrants";
+import { setCache } from "../utils/searchSlice";
 const Head = () => {
   const [searchText, setSearchText] = useState("");
   const [searchSuggestion, setSearchSuggestion] = useState([]);
   const [showSuggestion, setShowSuggestion] = useState(false);
+  const cacheSearchData = useSelector((store) => store.searchCache);
+  const dispatch = useDispatch();
   useEffect(() => {
-    const timer = setTimeout(() => getSearchSuggestion(), 200);
+    const timer = setTimeout(() => {
+      if (cacheSearchData[searchText]) {
+        setSearchSuggestion(cacheSearchData[searchText]);
+      } else {
+        getSearchSuggestion();
+      }
+    }, 200);
     return () => {
       clearTimeout(timer);
     };
@@ -20,9 +29,14 @@ const Head = () => {
     const res = await fetch(YOUTUBE_SEARCH_API + searchText);
     const jsonData = await res.json();
     // console.log(jsonData[1]);
+    dispatch(
+      setCache({
+        [searchText]: jsonData[1],
+      })
+    );
     setSearchSuggestion(jsonData[1]);
   };
-  const dispatch = useDispatch();
+
   const handleToggle = () => {
     dispatch(toggleSide());
   };
