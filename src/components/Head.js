@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleSide } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constrants";
 import { setCache } from "../utils/searchSlice";
+
 const Head = () => {
   const [searchText, setSearchText] = useState("");
   const [searchSuggestion, setSearchSuggestion] = useState([]);
@@ -47,6 +48,7 @@ const Head = () => {
           className="hover:cursor-pointer"
           onClick={() => handleToggle()}
         />
+
         <img
           className="h-5 ml-2"
           src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
