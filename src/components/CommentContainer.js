@@ -17,8 +17,8 @@ const Comment = ({ data }) => {
 
 const CommentList = ({ commentData }) => {
   return commentData.map((c, index) => (
-    <div>
-      <Comment key={index} data={c} />
+    <div key={index}>
+      <Comment data={c} />
       <div className="border-l-2 border-gray-400 ml-8">
         <CommentList key={index} commentData={c.replies} />
       </div>

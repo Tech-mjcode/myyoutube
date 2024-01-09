@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaAlignJustify } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
-import { FaSearch } from "react-icons/fa";
+
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSide } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constrants";
 import { setCache } from "../utils/searchSlice";
+import { Link } from "react-router-dom";
 
 const Head = () => {
   const [searchText, setSearchText] = useState("");
@@ -49,11 +50,13 @@ const Head = () => {
           onClick={() => handleToggle()}
         />
 
-        <img
-          className="h-5 ml-2"
-          src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
-          alt="logo"
-        ></img>
+        <a href="/">
+          <img
+            className="h-5 ml-2 hover:cursor-pointer"
+            src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg"
+            alt="logo"
+          />
+        </a>
       </div>
       <div className="col-span-10 p-4 ml-5">
         <div>
